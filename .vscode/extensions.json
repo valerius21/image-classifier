@@ -6,7 +6,9 @@
     "mikestead.dotenv",
     "mgmcdermott.vscode-language-babel",
     "orta.vscode-jest",
-    "prisma.prisma"
+    "prisma.prisma",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg"
   ],
   "unwantedRecommendations": []
 }
