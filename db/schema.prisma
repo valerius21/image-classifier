@@ -63,28 +63,3 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
-
-model Private {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  value     String
-}
-
-model Public {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  value     String
-}
-
-model Submission {
-  id                  Int      @id @default(autoincrement())
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  attentionCheckOne   Boolean?
-  attentionCheckTwo   Boolean?
-  attentionCheckThree Boolean?
-}
