@@ -14,31 +14,47 @@ export type ImageAttribute = {
 }
 export class ImageHelper {
   studySize: number
-  chance: number
+  weight: number
   static privateImages: any[]
   static publicImages: any[]
 
-  constructor(studySize: number, chance: number) {
+  /**
+   *
+   * @param studySize the number of images to be studied for a user
+   * @param weight the percentage of private images to be studied for a user
+   */
+  constructor(studySize: number, weight: number) {
     this.studySize = studySize
-    this.chance = chance
+    this.weight = weight
   }
 
-  async getPrivateImages() {
-    return await db.dataset.findMany()
-  }
-
-  async getPublicImages() {
-    return []
-  }
-
+  /**
+   * Get private images with the most annotations.
+   * @param min minimum number of annotations
+   * @param max maximum number of annotations
+   * @returns private images with previous annotations
+   */
   async getPreviousPrivateImages(min = 1, max = 40): Promise<Dataset[]> {
     return this.getPreviousImages(true, min, max)
   }
 
+  /**
+   * Get public images with the most annotations.
+   * @param min minimum number of annotations
+   * @param max maximum number of annotations
+   * @returns public images with previous annotations
+   */
   async getPreviousPublicImages(min = 1, max = 40): Promise<Dataset[]> {
     return this.getPreviousImages(false, min, max)
   }
 
+  /**
+   * Get images with previous annotations.
+   * @param isPrivate is the images are private
+   * @param minAnnotations minimum number of annotations
+   * @param maxAnnoations maximum number of annotations
+   * @returns images with previous annotations
+   */
   private async getPreviousImages(
     isPrivate: boolean,
     minAnnotations: number,
@@ -84,10 +100,18 @@ export class ImageHelper {
       }))
   }
 
+  /**
+   * Qualifies the private images based on the user's submission count.
+   * @returns a random image from the dataset with the bias towards the images with the most annotations.
+   */
   async getQualifiedPrivateImages() {
     return await this.getQualifiedImages(true)
   }
 
+  /**
+   * Qualifies the public images based on the user's submission count.
+   * @returns a random image from the dataset with the bias towards the images with the most annotations.
+   */
   async getQualifiedPublicImages() {
     return await this.getQualifiedImages(false)
   }
@@ -97,7 +121,7 @@ export class ImageHelper {
       ? await this.getPreviousPrivateImages()
       : await this.getPreviousPublicImages()
 
-    if (!n) n = this.studySize * this.chance - priorityImages.length
+    if (!n) n = this.studySize * this.weight - priorityImages.length
 
     const imgs = await db.dataset.findMany({
       where: {
@@ -202,8 +226,8 @@ export class ImageHelper {
     const userentry = await db.user.findFirst({ where: { id: user } })
     const { currentPrivateSubmissions, currentPublicSubmissions } = userentry
 
-    const nPrivate = this.studySize * this.chance - currentPrivateSubmissions
-    const nPublic = this.studySize * this.chance - currentPublicSubmissions
+    const nPrivate = this.studySize * this.weight - currentPrivateSubmissions
+    const nPublic = this.studySize * this.weight - currentPublicSubmissions
 
     // getting the qualified images
     let privateImgs = await this.getQualifiedImages(true, this.studySize)
