@@ -23,14 +23,6 @@ export class ImageHelper {
     this.chance = chance
   }
 
-  private async initPrivateImages() {
-    return ImageHelper.privateImages ? ImageHelper.privateImages : await this.getPrivateImages()
-  }
-
-  private async initPublicImages() {
-    return ImageHelper.publicImages ? ImageHelper.publicImages : await this.getPublicImages()
-  }
-
   async getPrivateImages() {
     return await db.dataset.findMany()
   }
@@ -140,6 +132,12 @@ export class ImageHelper {
     return [...priorityImages, ...imgs]
   }
 
+  /**
+   * Determine the submission count for a user.
+   * @param uid the user id
+   * @param isPrivate if the submission count is private or public
+   * @returns submission with related images
+   */
   private async getSubmissionCount(uid: string, isPrivate: boolean) {
     const counts = await db.submission.findMany({
       where: {
@@ -164,6 +162,10 @@ export class ImageHelper {
     return counts.length
   }
 
+  /**
+   * Updates the submission count for the user depending on the related submission data.
+   * @param uid the user id
+   */
   async updateUserSubmissionCount(uid: string) {
     const privateCount = await this.getSubmissionCount(uid, true)
     const publicCount = await this.getSubmissionCount(uid, false)
@@ -179,12 +181,23 @@ export class ImageHelper {
     })
   }
 
+  /**
+   * Sorts the images by the number of annotations.
+   * @param a A dataset
+   * @param b A dataset
+   * @returns number  -1 if a is preferred, 1 if b is preferred, 0 if they are equal
+   */
   private static sortFn = (a: DatasetAggregate, b: DatasetAggregate) => {
     const aCount = a._count.submission
     const bCount = b._count.submission
     return aCount - bCount
   }
 
+  /**
+   * Returns a random image from the dataset with the bias towards the images with the most annotations.
+   * @param user the user id
+   * @returns a preferred, random image
+   */
   async getImage(user: string): Promise<DatasetAggregate> {
     const userentry = await db.user.findFirst({ where: { id: user } })
     const { currentPrivateSubmissions, currentPublicSubmissions } = userentry
