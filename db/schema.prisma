@@ -14,13 +14,15 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             String   @id @default(uuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  name           String?
-  email          String   @unique
-  hashedPassword String?
-  role           String   @default("USER")
+  id                        String   @id @default(uuid())
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+  name                      String?
+  email                     String   @unique
+  hashedPassword            String?
+  role                      String   @default("USER")
+  currentPrivateSubmissions Int      @default(0)
+  currentPublicSubmissions  Int      @default(0)
 
   tokens     Token[]
   sessions   Session[]
