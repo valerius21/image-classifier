@@ -25,14 +25,14 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "1.1.1",
-    "@chakra-ui/react": "1.x",
-    "@emotion/react": "11.x",
-    "@emotion/styled": "11.x",
+    "@chakra-ui/react": "1.7.3",
+    "@emotion/react": "11.7.1",
+    "@emotion/styled": "11.6.0",
     "@prisma/client": "3.6.0",
     "blitz": "0.44.4",
     "formik": "2.2.9",
     "formik-chakra-ui": "1.6.0",
-    "framer-motion": "5.x",
+    "framer-motion": "5.5.5",
     "i18next": "21.6.2",
     "lodash": "4.17.21",
     "pino": "7.5.1",
@@ -56,7 +56,7 @@
     "pretty-quick": "3.1.2",
     "preview-email": "3.0.5",
     "prisma": "3.6.0",
-    "typescript": "~4.5"
+    "typescript": "4.5.4"
   },
   "private": true
 }
