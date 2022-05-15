@@ -35,7 +35,7 @@
     "framer-motion": "5.5.5",
     "i18next": "21.6.2",
     "lodash": "4.17.21",
-    "pino": "7.5.1",
+    "pino": "7.11.0",
     "pino-pretty": "7.3.0",
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
