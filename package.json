@@ -56,7 +56,7 @@
     "pretty-quick": "3.1.2",
     "preview-email": "3.0.5",
     "prisma": "3.6.0",
-    "typescript": "4.5.4"
+    "typescript": "4.9.3"
   },
   "private": true
 }
